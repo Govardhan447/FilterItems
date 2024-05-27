@@ -6,21 +6,18 @@ import './index.css'
 class ProductsHeader extends Component {
   state = {searchInput: ''}
 
-  getSearchInput = () => {
-    const {changeBySearchInput} = this.props
-    const {searchInput} = this.state
-    console.log(searchInput)
-    changeBySearchInput(searchInput)
-  }
-
+ 
   onChangeSortby = event => {
     const {changeSortby} = this.props
     changeSortby(event.target.value)
   }
 
   onsearchInput = event => {
-    this.setState({searchInput: event.target.value})
-    this.getSearchInput()
+    const {changeBySearchInput} = this.props
+    if(event.key === "Enter"){
+      this.setState({searchInput: event.target.value})
+       changeBySearchInput(searchInput)
+    }
   }
 
   render() {
@@ -29,7 +26,7 @@ class ProductsHeader extends Component {
 
     return (
       <div className="products-header">
-        <input type="text" value={searchInput} onChange={this.onsearchInput} />
+        <input type="text" value={searchInput} onKeyDown={onsearchInput} />
         <h1 className="products-list-heading">All Products</h1>
         <div className="sort-by-container">
           <BsFilterRight className="sort-by-icon" />
